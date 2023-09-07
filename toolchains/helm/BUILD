@@ -19,6 +19,13 @@ helm_toolchain(
     visibility = ["//visibility:public"],
 )
 
+helm_toolchain(
+    name = "helm_v2.17.0_linux_arm64",
+    tool = "@helm_v2.17.0_linux_arm64//:helm",
+    helm_version = "2.17.0",
+    visibility = ["//visibility:public"],
+)
+
 toolchain(
     name = "helm_v2.17.0_linux_toolchain",
     exec_compatible_with = [
@@ -30,6 +37,20 @@ toolchain(
         "@platforms//cpu:x86_64",
     ],
     toolchain = ":helm_v2.17.0_linux",
+    toolchain_type = ":toolchain_type",
+)
+
+toolchain(
+    name = "helm_v2.17.0_linux_arm64_toolchain",
+    exec_compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:arm64",
+    ],
+    target_compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:arm64",
+    ],
+    toolchain = ":helm_v2.17.0_linux_arm64",
     toolchain_type = ":toolchain_type",
 )
 

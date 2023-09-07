@@ -58,7 +58,7 @@ if [ -n $DIGEST_PATH ] && [ "$DIGEST_PATH" != "" ]; then
     IFS=':' read -ra digest_split <<< "$DIGEST"
     DIGEST_SHA=${digest_split[1]}
 
-    sha=$DIGEST_PATH {YQ_PATH} -i '.{VALUES_TAG_YAML_PATH} = env(sha)' {CHART_VALUES_PATH}
+    sha=$DIGEST_SHA {YQ_PATH} -i '.{VALUES_TAG_YAML_PATH} = env(sha)' {CHART_VALUES_PATH}
 
     echo "Replaced image tag in chart values.yaml with: $DIGEST_SHA"
 

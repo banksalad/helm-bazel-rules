@@ -12,8 +12,20 @@ kubectl_toolchain(
 )
 
 kubectl_toolchain(
+    name = "kubectl_darwin_arm64",
+    tool = "@kubectl_darwin_arm64//file",
+    visibility = ["//visibility:public"],
+)
+
+kubectl_toolchain(
     name = "kubectl_linux",
     tool = "@kubectl_linux//file",
+    visibility = ["//visibility:public"],
+)
+
+kubectl_toolchain(
+    name = "kubectl_linux_arm64",
+    tool = "@kubectl_linux_arm64//file",
     visibility = ["//visibility:public"],
 )
 
