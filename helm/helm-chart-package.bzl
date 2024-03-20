@@ -75,7 +75,13 @@ def _helm_chart_impl(ctx):
 
     # extract docker image info from dependency rule
     if ctx.attr.image:
-        digest_file = ctx.attr.image[ImageInfo].container_parts["digest"]
+        # check if rules_oci based image
+        if hasattr(ctx.attr.image, "digest"):
+            digest_file = ctx.attr.image.digest
+        # else assume it is rules_docker based image
+        else:
+            digest_file = ctx.attr.image[ImageInfo].container_parts["digest"]
+        
         digest_path = digest_file.path
         inputs = inputs + [ctx.file.image, digest_file]
     else:
