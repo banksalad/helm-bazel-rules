@@ -83,7 +83,7 @@ def _helm_chart_impl(ctx):
         image_tag = get_make_value_or_default(ctx, ctx.attr.image_tag)
 
     if ctx.attr.image_digest:
-        digest_path = ctx.attr.image_digest.path
+        digest_path = ctx.attr.image_digest
         inputs = inputs + [ctx.file.image, ctx.attr.image_digest]
 
     deps = ctx.attr.chart_deps or []
