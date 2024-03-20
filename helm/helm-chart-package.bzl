@@ -75,18 +75,16 @@ def _helm_chart_impl(ctx):
 
     # extract docker image info from dependency rule
     if ctx.attr.image:
-        # check if rules_oci based image
-        if hasattr(ctx.attr.image, "digest"):
-            digest_file = ctx.attr.image.digest
-        # else assume it is rules_docker based image
-        else:
-            digest_file = ctx.attr.image[ImageInfo].container_parts["digest"]
-        
+        digest_file = ctx.attr.image[ImageInfo].container_parts["digest"]
         digest_path = digest_file.path
         inputs = inputs + [ctx.file.image, digest_file]
     else:
         # extract docker image info from make variable or from rule attribute
         image_tag = get_make_value_or_default(ctx, ctx.attr.image_tag)
+
+    if ctx.attr.image_digest:
+        digest_path = ctx.attr.image_digest.path
+        inputs = inputs + [ctx.file.image, ctx.attr.image_digest]
 
     deps = ctx.attr.chart_deps or []
 
@@ -176,6 +174,7 @@ helm_chart = rule(
     attrs = {
         "srcs": attr.label_list(allow_files = True, mandatory = True),
         "image": attr.label(allow_single_file = True, mandatory = False),
+        "image_digest": attr.label(allow_single_file = True, mandatory = False),
         "image_tag": attr.string(mandatory = False),
         "package_name": attr.string(mandatory = True),
         "helm_chart_version": attr.string(mandatory = False, default = "1.0.0"),
